@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -88,6 +88,7 @@ const SendButton = styled(Button)({
 export default function Cadastro() {
   const [valueDataCep, setValueDataCep] = useState('');
   const [valueCep, setValueCep] = useState('');
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const [alert, setAlert] = useState(false);
 
@@ -98,7 +99,7 @@ export default function Cadastro() {
   const { errors } = formState;
   const classes = useStyles();
 
-  function handleCep() {
+  const handleCep = useCallback(async () => {
     if (valueCep.length >= 8) {
       axios
         .get(
@@ -114,11 +115,18 @@ export default function Cadastro() {
           setValue('uf', response.data.uf);
         });
     }
-  }
+  }, [valueCep, setValue]);
+
+  const initiateData = useCallback(async () => {
+    await handleCep();
+  }, [handleCep]);
 
   useEffect(() => {
-    handleCep();
-  }, []);
+    if (!isMounted) {
+      initiateData();
+      setIsMounted(true);
+    }
+  }, [initiateData, isMounted]);
 
   const handleSubmitForm: SubmitHandler<LoginUserFormData> = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
