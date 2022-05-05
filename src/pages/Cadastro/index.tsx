@@ -22,13 +22,23 @@ import axios from 'axios';
 import { Content } from './styles';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@material-ui/styles';
+import { useNavigate } from 'react-router-dom';
 
 type LoginUserFormData = {
-  email?: string;
-  password?: string;
-  nome?: string;
-  cpf?: string;
-  confirmpassword?: string;
+  email: string;
+  password: string;
+  nome: string;
+  cpf: string;
+  confirmpassword: string;
+  sobrenome: string;
+  sexo: string;
+  datanascimento: string;
+  cep: string;
+  cidade: string;
+  uf: string;
+  logradouro: string;
+  bairro: string;
+  complemento: string;
 };
 
 const createUserFormSchema = yup.object().shape({
@@ -91,7 +101,7 @@ export default function Cadastro() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const [alert, setAlert] = useState(false);
-
+  const navigate = useNavigate();
   const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(createUserFormSchema),
   });
@@ -128,13 +138,16 @@ export default function Cadastro() {
     }
   }, [initiateData, isMounted]);
 
-  const handleSubmitForm: SubmitHandler<LoginUserFormData> = async () => {
+  const handleSubmitForm: SubmitHandler<any> = async (values) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-
+    const cep = valueDataCep;
+    console.log(cep);
     api.post(`user`).then((response) => {
       if (response.status !== 400 || response.data.sucesso == false) {
         setAlert(true);
-        console.log(valueDataCep);
+        localStorage.setItem('usuario', values?.nome);
+        localStorage.setItem('email', values?.email);
+        navigate('/dashboard');
         return;
       }
     });

@@ -74,6 +74,9 @@ const Drawer = styled(MuiDrawer, {
 export default function Sidebar() {
   const [open, setOpen] = React.useState(true);
 
+  const nome = localStorage.getItem('usuario');
+  const email = localStorage.getItem('email');
+
   const { onLogoutSuccess } = useLogin();
   const toggleDrawer = () => {
     setOpen(!open);
@@ -110,7 +113,7 @@ export default function Sidebar() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Dashboard: {nome} - {email}
           </Typography>
           <IconButton color="inherit">
             <Stack
