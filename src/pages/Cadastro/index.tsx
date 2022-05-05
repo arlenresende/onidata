@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
 
 // form
-import { SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import api from '../../services/api';
@@ -22,14 +22,6 @@ import axios from 'axios';
 import { Content } from './styles';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@material-ui/styles';
-
-// Plugins
-
-import InputMask from 'react-input-mask';
-import { TextField } from '@mui/material';
-import ReactDatePicker from 'react-datepicker';
-
-import 'react-datepicker/dist/react-datepicker.css';
 
 type LoginUserFormData = {
   email?: string;
@@ -98,9 +90,8 @@ export default function Cadastro() {
   const [valueCep, setValueCep] = useState('');
 
   const [alert, setAlert] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState, setValue, control } = useForm({
+  const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(createUserFormSchema),
   });
 
@@ -129,13 +120,13 @@ export default function Cadastro() {
     handleCep();
   }, []);
 
-  const handleSubmitForm: SubmitHandler<LoginUserFormData> = async (values) => {
+  const handleSubmitForm: SubmitHandler<LoginUserFormData> = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     api.post(`user`).then((response) => {
       if (response.status !== 400 || response.data.sucesso == false) {
         setAlert(true);
-        setLoading(false);
+        console.log(valueDataCep);
         return;
       }
     });

@@ -24,9 +24,12 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { label, errorString, error, variant, mask = '', ...props },
   ref
 ) => {
-  const InputWithMask = useCallback((props: InputProps2): JSX.Element => {
-    return <InputMask {...props} mask={mask} style={{ border: 'none' }} />;
-  }, []);
+  const InputWithMask = useCallback(
+    (props: InputProps2): JSX.Element => {
+      return <InputMask {...props} mask={mask} style={{ border: 'none' }} />;
+    },
+    [mask]
+  );
 
   return (
     <>

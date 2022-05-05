@@ -69,9 +69,8 @@ const SendButton = styled(Button)({
 
 export default function CadastroProduto() {
   const [alert, setAlert] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState, setValue } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(createUserFormSchema),
   });
 
@@ -85,7 +84,7 @@ export default function CadastroProduto() {
     api.post(`produto`).then((response) => {
       if (response.status !== 400 || response.data.sucesso == false) {
         setAlert(true);
-        setLoading(false);
+
         return;
       }
     });

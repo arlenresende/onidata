@@ -66,7 +66,7 @@ export default function EditarProduto() {
     } catch (e) {
       throw e;
     }
-  }, []);
+  }, [id]);
 
   const initiateData = useCallback(async () => {
     await loadProduct();
@@ -79,13 +79,9 @@ export default function EditarProduto() {
     }
   }, [initiateData, mount]);
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: yupResolver(createUserFormSchema),
   });
-
-  const { errors } = formState;
-
-  console.log(dataProduto);
 
   const handleSubmitForm: SubmitHandler<any> = async (values) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));

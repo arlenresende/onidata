@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
@@ -10,7 +10,6 @@ import api from '../../services/api';
 import { Alert, Box, Button, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ModalDelete from '../modalDelete';
-import { setTimeout } from 'timers/promises';
 
 type ProductPros = {
   createdAt: string;
