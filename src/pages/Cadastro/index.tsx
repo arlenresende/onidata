@@ -23,6 +23,7 @@ import { Content } from './styles';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@material-ui/styles';
 import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../../context/loginContext';
 
 type LoginUserFormData = {
   email: string;
@@ -107,6 +108,7 @@ export default function Cadastro() {
   });
 
   const { errors } = formState;
+  const { onSuccess } = useLogin();
   const classes = useStyles();
 
   const handleCep = useCallback(async () => {
@@ -138,7 +140,9 @@ export default function Cadastro() {
     }
   }, [initiateData, isMounted]);
 
-  const handleSubmitForm: SubmitHandler<any> = async (values) => {
+  const handleSubmitForm: SubmitHandler<LoginUserFormData | any> = async (
+    values
+  ) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     const cep = valueDataCep;
     console.log(cep);
@@ -147,6 +151,7 @@ export default function Cadastro() {
         setAlert(true);
         localStorage.setItem('usuario', values?.nome);
         localStorage.setItem('email', values?.email);
+        onSuccess(true);
         navigate('/dashboard');
         return;
       }
